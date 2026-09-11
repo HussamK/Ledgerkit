@@ -11,7 +11,7 @@ moved once the provider confirms it.
 
 A mutable `balance` column can't answer why a balance is what it is, can't be
 audited, and can't be reconstructed after a bad write. This service stores
-immutable entries instead — a balance is the sum of an account's entries, never
+immutable entries instead a balance is the sum of an account's entries, never
 a stored value. Every transaction's entries sum to zero, so money is never
 created or destroyed, only moved.
 
