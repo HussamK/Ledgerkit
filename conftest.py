@@ -1,6 +1,7 @@
 import pytest
 
 from ledger.models import Account
+from payouts.services import create_recipient
 
 @pytest.fixture
 def platform_cash(db):
@@ -19,3 +20,7 @@ def ana_payable(db):
     return Account.objects.create(
         kind=Account.Kind.PAYABLE, reference="Ana:Payable"
     )
+
+@pytest.fixture
+def ana(db):
+    return create_recipient(external_ref="ana-123", name="Ana")
