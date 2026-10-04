@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from payouts.serializers import CreateRecipientSerializer, RecipientSerializer, CreateObligationSerializer, ObligationSerializer
 from payouts.services import create_recipient, create_obligation, RecipientAlreadyExists
 from payouts.models import Recipient
+from idempotency.handlers import run_idempotent
 
 class RecipientCreateView(APIView):
     def post(self, request):
@@ -27,6 +28,12 @@ class RecipientCreateView(APIView):
 
 class ObligationCreateView(APIView):
     def post(self, request):
+        return run_idempotent(
+            request,
+            endpoint="POST /obligations",
+            handler = lambda: self.create_obligation(request)
+        )
+    def create_obligation(self, request):
         input_serializer = CreateObligationSerializer(data=request.data)
         input_serializer.is_valid(raise_exception=True)
         data = input_serializer.validated_data
