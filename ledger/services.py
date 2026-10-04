@@ -1,9 +1,10 @@
 from django.db import transaction as db_transaction
-from ledger.models import Account, Entry, Transaction
 
 from ledger.exceptions import UnbalancedTransaction
+from ledger.models import Account, Entry, Transaction
 
-def record_transaction(kind:str, legs: list[tuple[Account, int]]) -> Transaction:
+
+def record_transaction(kind: str, legs: list[tuple[Account, int]]) -> Transaction:
     """Write a balanced transaction to the ledger.
 
     This is the only sanctioned way to write entries. Every transaction must
@@ -44,9 +45,7 @@ def record_transaction(kind:str, legs: list[tuple[Account, int]]) -> Transaction
 
         for account, amount in legs:
             Entry.objects.create(
-                transaction=ledger_transaction,
-                account=account,
-                amount_cents=amount
+                transaction=ledger_transaction, account=account, amount_cents=amount
             )
 
         return ledger_transaction

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class IdempotencyRecord(models.Model):
     key = models.CharField(max_length=255)
     endpoint = models.CharField(max_length=100)
@@ -11,7 +12,6 @@ class IdempotencyRecord(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["key", "endpoint"],
-                name="idempotency_key_per_endpoint"
+                fields=["key", "endpoint"], name="idempotency_key_per_endpoint"
             )
         ]

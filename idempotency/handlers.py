@@ -11,8 +11,9 @@ from idempotency.models import IdempotencyRecord
 
 def hash_request(data) -> str:
     """Sort and hash body to check for duplicate requests later"""
-    payload = json.dumps(data, sort_keys=True, separators=(",",":"))
+    payload = json.dumps(data, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(payload.encode()).hexdigest()
+
 
 def run_idempotent(request, endpoint, handler):
     key = request.headers.get("Idempotency-Key")
@@ -28,16 +29,16 @@ def run_idempotent(request, endpoint, handler):
         try:
             with db_transaction.atomic():
                 record = IdempotencyRecord.objects.create(
-                    key=key,
-                    endpoint=endpoint,
-                    request_hash=request_hash
+                    key=key, endpoint=endpoint, request_hash=request_hash
                 )
         except IntegrityError:
             existing = IdempotencyRecord.objects.get(key=key, endpoint=endpoint)
             if existing.request_hash != request_hash:
                 return Response(
-                    {"detail": "Idempotency-Key was already used with different parameters."},
-                    status=status.HTTP_422_UNPROCESSABLE_ENTITY
+                    {
+                        "detail": "Idempotency-Key was already used with different parameters."
+                    },
+                    status=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 )
             return Response(existing.response_body, status=existing.response_status)
 

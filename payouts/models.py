@@ -3,6 +3,7 @@ from django.db.models import Q
 
 from ledger.models import Account, Transaction
 
+
 class Recipient(models.Model):
     external_ref = models.CharField(max_length=100, unique=True)
     name = models.CharField(max_length=200)
@@ -14,14 +15,15 @@ class Recipient(models.Model):
     def __str__(self):
         return self.name
 
+
 class Obligation(models.Model):
     class Status(models.TextChoices):
-        PENDING="pending"
-        BATCHED="batched"
-        PAID="paid"
-        FAILED="failed"
-        UNRESOLVED="unresolved"
-        
+        PENDING = "pending"
+        BATCHED = "batched"
+        PAID = "paid"
+        FAILED = "failed"
+        UNRESOLVED = "unresolved"
+
     recipient = models.ForeignKey(
         Recipient, on_delete=models.PROTECT, related_name="obligations"
     )
@@ -33,10 +35,10 @@ class Obligation(models.Model):
         Transaction, on_delete=models.PROTECT, related_name="+"
     )
     settled_transaction = models.OneToOneField(
-        Transaction, 
-        on_delete=models.PROTECT, 
-        related_name="+", 
-        null=True, 
+        Transaction,
+        on_delete=models.PROTECT,
+        related_name="+",
+        null=True,
         blank=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -45,7 +47,6 @@ class Obligation(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=Q(amount_cents__gt=0),
-                name="obligation_amount_positive"
+                condition=Q(amount_cents__gt=0), name="obligation_amount_positive"
             )
         ]

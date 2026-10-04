@@ -15,6 +15,7 @@ def test_create_recipient():
     assert recipient.payable_account.kind == Account.Kind.PAYABLE
     assert recipient.payable_account.recipient == recipient
 
+
 @pytest.mark.django_db
 def test_large_name_create_recipient():
     with pytest.raises(DataError):
