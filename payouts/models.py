@@ -16,13 +16,13 @@ class Recipient(models.Model):
 
 class Obligation(models.Model):
     class Status(models.TextChoices):
-        PENDING="pending",
-        BATCHED="batched",
-        PAID="paid",
-        FAILED="failed",
+        PENDING="pending"
+        BATCHED="batched"
+        PAID="paid"
+        FAILED="failed"
         UNRESOLVED="unresolved"
         
-    recipient_id = models.ForeignKey(
+    recipient = models.ForeignKey(
         Recipient, on_delete=models.PROTECT, related_name="obligations"
     )
     amount_cents = models.BigIntegerField()
@@ -40,7 +40,7 @@ class Obligation(models.Model):
         blank=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         constraints = [
