@@ -21,4 +21,4 @@ def test_large_name_create_recipient():
     with pytest.raises(DataError):
         create_recipient(external_ref="ana-123", name="x" * 201)
 
-    assert Account.objects.count() == 0
+    assert Account.objects.filter(kind=Account.Kind.PAYABLE).count() == 0

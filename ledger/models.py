@@ -4,8 +4,8 @@ from django.db.models import Q
 
 class Account(models.Model):
     class Kind(models.TextChoices):
-        CASH = ("cash",)
-        EXTERNAL = ("external",)
+        CASH = "cash"
+        EXTERNAL = "external"
         PAYABLE = "payable"
 
     kind = models.CharField(max_length=30, choices=Kind.choices)

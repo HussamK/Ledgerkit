@@ -4,7 +4,7 @@ from payouts.models import Obligation, Recipient
 
 
 class CreateRecipientSerializer(serializers.Serializer):
-    # Use Account,reference "Payable:" for 8 chars, Account.reference max_length is 100 in db
+    # Use Account,reference "Payable:" for 8 chars, Account.reference max_length is 100
     external_ref = serializers.CharField(max_length=92)
     name = serializers.CharField(max_length=200)
 

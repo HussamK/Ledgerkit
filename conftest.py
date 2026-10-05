@@ -7,14 +7,12 @@ from payouts.services import create_recipient
 
 @pytest.fixture
 def platform_cash(db):
-    return Account.objects.create(kind=Account.Kind.CASH, reference="Platform:Cash")
+    return Account.objects.get(reference="Platform:Cash")
 
 
 @pytest.fixture
 def external_provider(db):
-    return Account.objects.create(
-        kind=Account.Kind.EXTERNAL, reference="External:Provider"
-    )
+    return Account.objects.get(reference="External:Provider")
 
 
 @pytest.fixture

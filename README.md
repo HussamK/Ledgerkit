@@ -24,7 +24,7 @@ Python · Django REST Framework · PostgreSQL · pytest · Docker
 Requires Python 3.11+ and Docker.
 
 ```bash
-git clone https://github.com/yourname/ledgerkit.git
+git clone https://github.com/HussamK/ledgerkit.git
 cd ledgerkit
 
 python3 -m venv venv
