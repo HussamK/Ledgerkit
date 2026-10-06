@@ -5,6 +5,9 @@ from ledger.models import Account
 from ledger.services import record_transaction
 from payouts.models import Obligation, Recipient
 
+PLATFORM_CASH_REF = "Platform:Cash"
+EXTERNAL_PROVIDER_REF = "External:Provider"
+
 
 class RecipientAlreadyExists(Exception):
     pass
@@ -30,7 +33,7 @@ def create_obligation(recipient: Recipient, amount_cents: int) -> Obligation:
         raise ValueError("Obligation amount must be positive")
 
     with db_transaction.atomic():
-        platform_cash = Account.objects.get(reference="Platform:Cash")
+        platform_cash = Account.objects.get(reference=PLATFORM_CASH_REF)
         legs = [
             (platform_cash, -amount_cents),
             (recipient.payable_account, amount_cents),
