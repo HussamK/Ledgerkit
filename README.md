@@ -1,11 +1,8 @@
 # Ledgerkit
 
-A double-entry payout ledger. Records obligations, batches payouts to an
-external provider, and reconciles against what the provider actually processed.
+A double-entry payout ledger. Records obligations, batches payouts, and reconciles against what the provider actually processed.
 
-Built as a study in correctness under failure: every movement of money is
-recorded as balanced, immutable entries, and money is only ever recorded as
-moved once the provider confirms it.
+Built as a study in correctness under failure: every movement of money is recorded as balanced, immutable entries, and money is only ever recorded as moved once the provider confirms it.
 
 ## Why double-entry
 
@@ -39,4 +36,22 @@ python manage.py runserver
 
 ## Status
 
-In progress. Currently: project setup and ledger schema.
+In progress. Design decisions are recorded in [DECISIONS.md](DECISIONS.md).
+
+**Working**
+- [x] Double-entry ledger: accounts, transactions, and immutable entries; every transaction must sum to zero
+- [x] Recipients and obligations, created through a service layer that writes ledger entries atomically
+- [x] `POST /api/recipients/` and `POST /api/obligations/`
+- [x] Idempotency keys on `POST /api/obligations/`: retries replay the original response; a reused key with a different body is rejected
+- [x] System accounts seeded by data migration, so a fresh `migrate` is ready to use
+- [x] pytest suite covering the ledger invariant, rollback on failure, and the API
+
+**In progress**
+- [ ] Read endpoints: obligation lookup and recipient balance (computed from entries, never stored)
+
+**Next**
+- [ ] CI: ruff and pytest against Postgres on every push
+- [ ] Database-level enforcement of the sum-to-zero rule (constraint trigger)
+- [ ] Payout batching: spec first, then implementation
+- [ ] Simulated payment provider with retries, timeouts, and a dead-letter table
+- [ ] Deployment to AWS

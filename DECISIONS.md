@@ -1,26 +1,3 @@
-# Decisions
-
-## 00 . Decision
-
-*2026-10-05*
-
-**Decision.**
-
-
-
-**Alternatives.** 
-
-
-
-**Why.**
-
-
-
-**Cost.** 
-
-
-
-
 ## 001. Store money as integer cents
 *2026-10-05*
 
